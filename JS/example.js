@@ -27,6 +27,11 @@ var cubeImage_back;
 var cubeImage_left;
 var cubeImage_right;
 
+
+var theta = [0.0, 0.0, 0.0];
+var X_rot = 0;
+var Z_rot = 0;
+
 function exampleLoad() {
     this.RL = null; //  Resource Loader
     this.shaderProgram = null; //  The Default Shader Program - super simple one color
@@ -220,12 +225,15 @@ exampleLoad.prototype.initPerspectiveBuffers = function (/*shaderProgram*/) {
     //  Get the view matrix location
     var vMatrixUniform3 = gl.getUniformLocation(this.teapotShaderProgram, "viewMatrix");
     var mMatrixUniform3 = gl.getUniformLocation(this.teapotShaderProgram, "modelMatrix");
+    // var thetaLocation = gl.getUniformLocation(this.teapotShaderProgram, "theta");
     //  Send the perspective matrix
     gl.uniformMatrix4fv(pMatrixUniform3, false, cameraMatrix);
     //  Send the view matrix
     gl.uniformMatrix4fv(vMatrixUniform3, false, viewMatrix);
     //  Send the model Matrix.
     gl.uniformMatrix4fv(mMatrixUniform3, false, mMatrix);
+    // Send the theta
+    // gl.uniform3fv(thetaLocation, theta);
 }
 exampleLoad.prototype.initSetupBuffers = function () {
     gl.useProgram(this.shaderProgram);
@@ -341,7 +349,7 @@ exampleLoad.prototype.initSetupTeapotBuffers = function () {
 
     teaVertexPositionBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, teaVertexPositionBuffer);      
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tea_verticies), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tea_verticies), gl.DYNAMIC_DRAW);
     teaVertexPositionBuffer.itemSize = 3;
     teaVertexPositionBuffer.numItems = tea_verticies.length/3;//(gridN+1)*(gridN+1);
 
@@ -351,7 +359,7 @@ exampleLoad.prototype.initSetupTeapotBuffers = function () {
 
     teaNormalBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, teaNormalBuffer);      
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tea_normals), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tea_normals), gl.DYNAMIC_DRAW);
     teaNormalBuffer.itemSize = 3;
     teaNormalBuffer.numItems = tea_normals.length/3;//(gridN+1)*(gridN+1);
 
@@ -373,11 +381,11 @@ exampleLoad.prototype.draw = function () {
     //  Draw function - called from render in index.js
 
     //Draw the red square
-    gl.useProgram(this.shaderProgram);
-    // gl.useProgram(this.terrainShaderProgram);
-    gl.clearColor(0.1, 0.1, 0.1, 1.0); //  Set the clear color
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); //  Clear the color as well as the depth buffer
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); //  Draw
+    // gl.useProgram(this.shaderProgram);
+    // // gl.useProgram(this.terrainShaderProgram);
+    // gl.clearColor(0.1, 0.1, 0.1, 1.0); //  Set the clear color
+    // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); //  Clear the color as well as the depth buffer
+    // gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); //  Draw
 
     //Draw terrain
 
@@ -410,6 +418,10 @@ exampleLoad.prototype.draw = function () {
 
     //Draw teapot
     gl.useProgram(this.teapotShaderProgram);
+    var thetaLocation = gl.getUniformLocation(this.teapotShaderProgram, "theta");
+    // Send the theta
+    gl.uniform3fv(thetaLocation, theta);
+
     gl.activeTexture(gl.TEXTURE0);
     gl.uniform1i(gl.getUniformLocation(this.terrainShaderProgram, "texMap"), 0);
     // gl.useProgram(this.shaderProgram);

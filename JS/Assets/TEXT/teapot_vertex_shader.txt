@@ -27,18 +27,30 @@ varying vec3 R;
   uniform mat4 modelMatrix;       
   uniform mat4 viewMatrix;        
   uniform mat4 projectionMatrix;  
-// uniform vec3 theta;
+uniform vec3 theta;
 
 void main()
 {
 	
-	// vec3 angles = radians(theta);
+	vec3 angles = radians(theta);
 	
 	// compute rotation matrices rx, ry, rz here
 
-	//mat4 rz = 
+  vec4 rx_top = vec4(1.0, 0.0, 0.0, 0.0);
+  vec4 rx_middle = vec4(0.0, cos(angles.x), -sin(angles.x), 0.0);
+  vec4 rx_bottom = vec4(0.0, sin(angles.x), cos(angles.x), 0.0);
+  vec4 rx_last = vec4(0.0, 0.0, 0.0, 1.0);
 
-	mat4 ModelViewMatrix = viewMatrix*modelMatrix;//*rz*ry*rx;
+	mat4 rx = mat4(rx_top, rx_middle, rx_bottom, rx_last);
+
+  vec4 rz_top = vec4(cos(angles.z), -sin(angles.z), 0.0, 0.0);
+  vec4 rz_middle = vec4(sin(angles.z), cos(angles.z), 0.0, 0.0);
+  vec4 rz_bottom = vec4(0.0, 0.0, 1.0, 0.0);
+  vec4 rz_last = vec4(0.0, 0.0, 0.0, 1.0);
+
+  mat4 rz = mat4(rz_top, rz_middle, rz_bottom, rz_last);
+
+	mat4 ModelViewMatrix = viewMatrix*modelMatrix*rx*rz;//*rz*ry*rx;
 	gl_Position = projectionMatrix*ModelViewMatrix*vec4(aVertexPosition, 1.0);
 	vec4 eyePos = ModelViewMatrix*vec4(aVertexPosition, 1.0);
 	vec4 N = ModelViewMatrix*vec4(aNormal,1.0);

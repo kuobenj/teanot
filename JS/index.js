@@ -125,18 +125,20 @@ function setGLViewport() {
 
 function initializeProgram() {
     // Call your program from here.
+    console.log("Initializing program");
+
+        document.onkeydown = handleKeyDown;
+  document.onkeyup = handleKeyUp;
     exLoad = new exampleLoad();
     // Load all the resources before doing anything else.
     exLoad.loadResources();
-
-
 }
 
 // The Render Function
 function render(newTimeStamp) {
     currentTimeStamp = newTimeStamp * 0.001;
     deltaTime = currentTimeStamp - previousTimeStamp;
-
+    handleKeys();
     //  Call your program's render function here.
     exLoad.draw();
     window.requestAnimationFrame(render);
