@@ -1,0 +1,24 @@
+   //attribute vec3 aVertexPosition;
+   attribute vec3 vertexPosition;
+   attribute vec2 aTexCoord;
+   
+   //uniform mat4 uMVMatrix;
+   //uniform mat4 uPMatrix;
+   
+   uniform mat4 modelMatrix;       
+   uniform mat4 viewMatrix;        
+   uniform mat4 projectionMatrix; 
+
+   // varying vec2 vTexCoord;
+   varying vec4 vTexColor;
+
+	uniform sampler2D uSampler;
+
+   void main(void) { 
+     //gl_Position = uPMatrix*uMVMatrix*vec4(aVertexPosition, 1.0);//+vec4(0.0,0.0,texture2D(vTexCoord));
+     // gl_Position = projectionMatrix*viewMatrix*modelMatrix*(vec4(vertexPosition, 1.0)+texture2D(uSampler,vec2(aTexCoord.s,aTexCoord.t)));//vec4(0.0,0.0,texture2D(uSampler,vec2(aTexCoord.s,aTexCoord.t)).z,0.0));
+    gl_Position = projectionMatrix*viewMatrix*modelMatrix*(vec4(vertexPosition, 1.0)+vec4(0.0,2.0*length(texture2D(uSampler,aTexCoord).xyz),1.0,0.0));
+     //gl_PointSize = 10.0;                   
+      // vTexCoord=aTexCoord;    
+      vTexColor= texture2D(uSampler, aTexCoord);
+    }

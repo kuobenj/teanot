@@ -1,0 +1,14 @@
+precision mediump float;
+ 
+// Passed in from the vertex shader.
+// varying vec2 vTexCoord;
+ varying vec4 vTexColor;
+ 
+// The texture.
+// uniform sampler2D uSampler;
+ 
+void main() {
+   // gl_FragColor = vec4(0.5,1.0,0.1,1.0);//texture2D(uSampler, vTexCoord);
+   //gl_FragColor = //vec4(vTexCoord.x,vTexCoord.y,0.0,1.0);
+	gl_FragColor = vTexColor;
+}

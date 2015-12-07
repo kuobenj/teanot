@@ -1,0 +1,23 @@
+precision mediump float;
+
+// Passed in from the vertex shader.
+// varying vec2 vTexCoord;
+
+// The texture.
+// uniform sampler2D uSampler;
+
+// void main() {
+//   gl_FragColor = vec4(0.5,0.0,1.0,1.0);//texture2D(uSampler, vTexCoord);
+//   //gl_FragColor = //vec4(vTexCoord.x,vTexCoord.y,0.0,1.0);
+// }
+
+// precision mediump float;
+
+varying vec3 R;
+uniform samplerCube texMap;
+
+void main()
+{
+ vec4 texColor = textureCube(texMap, R);
+ gl_FragColor = texColor;
+}

@@ -1,0 +1,46 @@
+  attribute vec3 aVertexPosition;
+  attribute vec3 aNormal;
+  //attribute vec2 aTexCoord;
+  
+  // uniform mat4 uMVMatrix;
+  // uniform mat4 uPMatrix;
+  
+	// attribute vec4 vertexPosition;   
+
+	// uniform mat4 modelMatrix;       
+	// uniform mat4 viewMatrix;        
+	// uniform mat4 projectionMatrix;  
+
+ //  // varying vec2 vTexCoord;
+
+ //  void main(void) { 
+ //    // gl_Position = projectionMatrix*viewMatrix*modelMatrix*vertexPosition;//vec4(aVertexPosition, 1.0);
+ //    gl_Position = projectionMatrix*viewMatrix*modelMatrix*vec4(aVertexPosition, 1.0);
+ //    // vTexCoord=aTexCoord;    
+ //   }
+
+varying vec3 R;
+
+// attribute vec4 vPosition;
+// attribute vec4 vNormal;
+
+  uniform mat4 modelMatrix;       
+  uniform mat4 viewMatrix;        
+  uniform mat4 projectionMatrix;  
+// uniform vec3 theta;
+
+void main()
+{
+	
+	// vec3 angles = radians(theta);
+	
+	// compute rotation matrices rx, ry, rz here
+
+	//mat4 rz = 
+
+	mat4 ModelViewMatrix = viewMatrix*modelMatrix;//*rz*ry*rx;
+	gl_Position = projectionMatrix*ModelViewMatrix*vec4(aVertexPosition, 1.0);
+	vec4 eyePos = ModelViewMatrix*vec4(aVertexPosition, 1.0);
+	vec4 N = ModelViewMatrix*vec4(aNormal,1.0);
+	R = reflect(eyePos.xyz, N.xyz); 
+ } 
